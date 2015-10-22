@@ -1,10 +1,9 @@
 source 'https://rubygems.org'
-ruby "1.9.3"
 
-gem 'cucumber', '1.3.6'
-gem 'rest-client', '1.6.7'
+gem 'cucumber'
+gem 'rest-client'
 gem 'nokogiri'
-gem 'diaspora-federation', :git => 'https://github.com/Raven24/diaspora-federation.git'
+gem 'diaspora_federation'
 gem 'sinatra'
 
 #development

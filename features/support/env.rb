@@ -1,4 +1,4 @@
-require 'diaspora-federation'
+require 'diaspora_federation'
 require 'rest_client'
 require 'nokogiri'
 require 'open-uri'
