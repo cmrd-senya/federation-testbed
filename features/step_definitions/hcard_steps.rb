@@ -1,5 +1,5 @@
 Given(/^an existing webfinger document$/) do
-  url = 'https://' + @server + '//webfinger?q=acct:' + @diaspora_user
+  url = @method + '://' + @server + '//webfinger?q=acct:' + @diaspora_user
   # MK: Consider using interpolation vs. concatenation (throughout the project).
   # Not a must -- but more 'idiomatic'
   # http://stackoverflow.com/questions/10076579/string-concatenation-vs-interpolation-in-ruby
@@ -9,7 +9,7 @@ end
 
 When(/^I make a hcard request with not existing user$/) do
   begin
-    RestClient.get 'https://' + @server + '/hcard/users/23@42@notvaliduser'
+    RestClient.get @method + '://' + @server + '/hcard/users/23@42@notvaliduser'
   rescue => e
     @invalid_request = e.to_s
   end

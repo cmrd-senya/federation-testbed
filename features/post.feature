@@ -4,6 +4,9 @@ Feature: Post messages
 	 And I should receive response
 	 # MK: I think response should be specified more precisely
 
+  Background:
+         Given an existing server
+
   Scenario: sending a public message 
   	 Given a public message
   	 Given an existing server
@@ -11,7 +14,6 @@ Feature: Post messages
    	Then the status code should be success	 
 
   Scenario: sending a private message
-  	Given an existing server
 	  Given a private message
 	  When I send a private message
-    # Then the status code should be success
+	  Then the status code should be success

@@ -6,4 +6,6 @@ def read_config
   @server = config['server']
   @guid = config['guid']
   @private_key = config['private_key']
+  @public_key = config['public_key']
+  @method = config['method']
 end
