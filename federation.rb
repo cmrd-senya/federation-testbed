@@ -1,10 +1,12 @@
 require 'sinatra'
 require "bundler/setup"
-require 'diaspora-federation'
+require 'diaspora_federation'
+require "nokogiri"
 require 'open-uri'
 require "erb"
 require "rest-client"
 
+set :bind, "0.0.0.0"
 
 before do
 	@new_post 
@@ -73,7 +75,7 @@ end
 #routes
 
 get '/.well-known/host-meta' do
-  hostmeta = DiasporaFederation::WebFinger::HostMeta.from_base_url('https://tinyd.heroku.com')
+  hostmeta = DiasporaFederation::Discovery::HostMeta.from_base_url('https://tinyd.heroku.com')
   hostmeta.to_xml
 end
 
