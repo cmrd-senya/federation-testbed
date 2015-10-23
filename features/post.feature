@@ -9,7 +9,6 @@ Feature: Post messages
 
   Scenario: sending a public message
     Given a public message
-    Given an existing server
     When I send a public message
     Then the status code should be success
 
