@@ -1,23 +1,46 @@
 ## Prepare
 You must have a working diaspora installation! Check out the source code, cd to the source directory.
-Run "bundle install" there.
+Run ```bundle install``` there.
+```
+$ git clone https://github.com/cmrd-senya/federation-testbed
+$ cd federation-testbed
+$ gem install bundler
+$ bundle install
+```
 
 ## Configuration
+Configure the ```features/support/config.yml``` according to your testing environment.
+
 You must have a user registered on your pod.
-Change "features/support/config.yml" so that it represents valid settings for your pod.
-You could get a public/private keypair for a user by running following command in the Rails console.
-```ruby
-username = "test"                                                                    #=> set to your user's name
-User.where(username: username)[0].serialized_private_key                             #=> will return private key
-Person.where(guid: User.where(username: username)[0].guid)[0].serialized_public_key  #=> will return public key
+
+## Running the testbed on the same host with the target pod
+If you want to run the testbed on the same host, where your Diaspora installation lives, you must perform additional actions.
+
+Add the following lines to your ```/etc/hosts```:
 ```
-The Rails console could be run with
-```
-bin/rails console
+127.0.0.1	testbed.local
+127.0.0.1	pod.local
 ```
 
+Install [boxcars](https://github.com/azer/boxcars) proxy.
+
+Pick the following configuration and save it to ```proxy.json```:
+```
+{
+  "testbed.local": "192.168.56.103:4567",
+  "pod.local": "192.168.56.103:3000"
+}
+```
+
+Launch the proxy with:
+```
+sudo gocode/bin/boxcars --port=80 proxy.json
+```
+
+After this actions, both Diaspora and the testbed will be accessible on the same machine and will be able to communicate with each other.
+
 ## Run
-Launch tests with
+Launch tests with:
 ```
 cucumber
 ```
