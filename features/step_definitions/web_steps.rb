@@ -1,9 +1,9 @@
 Given(/^an existing user account diaspora_user$/) do 
-  read_config()
+  GeneratedData.instance
 end
 
 Given(/^an existing server$/) do
-  read_config()
+  Config.instance
 end
 
 Then(/^the status code should be success$/) do

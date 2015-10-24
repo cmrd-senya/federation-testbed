@@ -6,6 +6,10 @@ Feature: Post messages
 
   Background:
     Given an existing server
+    And an existing user account diaspora_user
+    And an existing webfinger document
+    And I make a hcard-request
+    And I should receive a valid hcard document
 
   Scenario: sending a public message
     Given a public message

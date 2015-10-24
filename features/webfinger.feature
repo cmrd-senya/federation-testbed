@@ -4,8 +4,8 @@ Feature: Webfinger request
   And receive back valid information about a user account
 
   Background:
-    Given an existing user account diaspora_user
     Given an existing server
+    Given an existing user account diaspora_user
 
   Scenario: Request with existing user account
     When I make a webfinger request to an existing diaspora pod
