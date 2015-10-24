@@ -124,3 +124,7 @@ end
 get '/read_post' do
 
 end
+
+get "/people/:guid/stream" do |guid|
+  [].to_json
+end
