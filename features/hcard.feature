@@ -7,7 +7,6 @@ Feature: Hcard request
     Given an existing server
 
   Scenario: Existing hcard document
-    Given an existing user account diaspora_user
     Given an existing webfinger document
     When I make a hcard-request
     Then the status code should be success

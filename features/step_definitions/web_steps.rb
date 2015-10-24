@@ -1,5 +1,5 @@
-Given(/^an existing user account diaspora_user$/) do 
-  GeneratedData.instance
+Given(/^an existing user account at the testbed$/) do
+  GeneratedData.instance.roll
 end
 
 Given(/^an existing server$/) do

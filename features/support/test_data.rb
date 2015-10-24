@@ -11,6 +11,10 @@ class GeneratedData
   attr_reader :guid
 
   def initialize
+    roll
+  end
+
+  def roll
     @test_user_name ="user-#{Time.now.to_i}" 
     @test_user_id = @test_user_name + "@" + Config.instance.testbed_host
     key_size = 1024
