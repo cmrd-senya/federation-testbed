@@ -1,7 +1,8 @@
-method: "http"
 test_target: #Section
-  host: "pod.local"
+  method: "http"
+  host: "localhost:3000"
   user: "test"
 testbed_config: #Section
-  host: "testbed.local"
+  method: "http"
+  host: "localhost:4567"
 
