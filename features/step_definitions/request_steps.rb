@@ -4,7 +4,5 @@ When(/^a sharing request$/) do
     recipient_id: Config.instance.diaspora_user
   })
 
-  @pkey = OpenSSL::PKey::RSA.new GeneratedData.instance.private_key
-  @pubkey= OpenSSL::PKey::RSA.new @h_card.public_key
-  @xml = DiasporaFederation::Salmon::EncryptedSlap.generate_xml(GeneratedData.instance.test_user_id, @pkey, request, @pubkey)
+  @xml = generate_private_message(request)
 end

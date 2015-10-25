@@ -8,57 +8,6 @@ require "rest-client"
 
 set :bind, "0.0.0.0"
 
-before do
-	@new_post
-	@posts_array = []
-	set_up_user
-end
-
-def set_up_user
-	@user = "deleted_soon"
-	@guid = '20bae424196dac5a'
-end
-
-def get_stream
-  @doc = Nokogiri::XML(open('https://joindiaspora.com/public/carolinagc.atom'))
-  @post_titles = @doc.xpath('//xmlns:title')
-
-  @post_titles_str = ""
-  for i in 1..(@post_titles.length - 1)
-    @p = @post_titles[i].to_html
-    @post_titles_str << @p.gsub!("title", "div class=post_titles ") << "<a id=" << i.to_s << " onclick='jump_to(id)'>read more </a>"
-  end
-
-  @post_bodies = @doc.xpath('//xmlns:content')
-  @post_bodies_str = ""
-  for i in 1..(@post_bodies.length - 1)
-    @p = @post_bodies[i].to_html
-    @post_bodies_str << @p.gsub!("content", "div class=post_titles " << "id=" << (100*i).to_s)
-  end
-end
-
-def generate_xml_public(post_content)
-	#generates from the post content the xml which is needed to send it to other pods
-  e = DiasporaFederation::Entities::StatusMessage.new({
-      raw_message: '#{post_content}', guid: SecureRandom.hex(16),
-      diaspora_handle: "#{@user}@tinyd.heroku.com", created_at: DateTime.now, public: true })
-  @xml = DiasporaFederation::Salmon::Slap.generate_xml("#{@user}@tinyd.heroku.com", @private_key, e)
-  RestClient.post "https://wk3.org/receive/public", {:xml => @xml}
-end
-
-def read_posts_file()
-	posts_file = File.open('posts.txt', 'a+') 
-	posts_file.each_line {|line| @posts_array.push(line)}
-	posts_file.close
-end
-
-def save_posts_to_file(post_content)
-	posts_file = File.open('posts.txt', 'a+')
-	posts_file << post_content << "\n"
-	posts_file.close
-end
-
-
 #routes
 
 get '/.well-known/host-meta' do
@@ -67,8 +16,6 @@ get '/.well-known/host-meta' do
 end
 
 get '/' do
-  get_stream 
-  read_posts_file()   
   erb :index
 end
 
@@ -106,11 +53,6 @@ get '/federation/hcard' do
 end
 
 post '/' do
-  get_stream
- 	@new_post = "#{params[:post_content]}"
- 	generate_xml_public(@new_post)
- 	save_posts_to_file(@new_post)
- 	read_posts_file()
   erb :index
 end
 
@@ -119,10 +61,6 @@ get '/public/user.atom'  do
   @post_title = @doc.xpath('//xmlns:title')
 
   builder :feed
-end
-
-get '/read_post' do
-
 end
 
 get "/people/:guid/stream" do |guid|

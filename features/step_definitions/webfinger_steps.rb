@@ -1,13 +1,14 @@
 When(/^I make a webfinger request with not existing user$/) do
   begin
-    RestClient.get Config.instance.server_url +'/webfinger?q=acct:lkasdjflasjiohsdfgj@' + Config.instance.server
+    request_webfinger("lkasdjflasjiohsdfgj@" + Config.instance.server)
+    false
   rescue => e
     @invalid_request = e.to_s
   end
 end
 
 When(/^I make a webfinger request to an existing diaspora pod$/) do
-  @response = RestClient.get Config.instance.server_url + '/webfinger?q=acct:' + Config.instance.diaspora_user
+  @response = request_webfinger(Config.instance.diaspora_user)
 end
 
 Then(/^I should receive a valid webfinger document$/) do

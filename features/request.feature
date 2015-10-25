@@ -5,9 +5,7 @@ Feature: Post sharing requests
   Background:
     Given an existing server
     And an existing user account at the testbed
-    And an existing webfinger document
-    And I make a hcard-request
-    And I should receive a valid hcard document
+    And we discovered a user from our target
 
   Scenario: post a request
     Given a sharing request

@@ -1,22 +1,18 @@
 Given(/^an existing webfinger document$/) do
-  url = Config.instance.server_url + '/webfinger?q=acct:' + Config.instance.diaspora_user
-  # MK: Consider using interpolation vs. concatenation (throughout the project).
-  # Not a must -- but more 'idiomatic'
-  # http://stackoverflow.com/questions/10076579/string-concatenation-vs-interpolation-in-ruby
-  @webfinger = Nokogiri::XML(open(url))
-  # MK: I sould suggest to stricly separate responsibililties of RestClient (for requests) and Nokogiri (for parsing)
+  @webfinger = request_and_parse_webfinger(Config.instance.diaspora_user)
 end
 
 When(/^I make a hcard request with not existing user$/) do
   begin
     RestClient.get Config.instance.server_url + '/hcard/users/23@42@notvaliduser'
+    false
   rescue => e
     @invalid_request = e.to_s
   end
 end
 
 When(/^I make a hcard\-request$/) do
-  @response = RestClient.get @webfinger.xpath('//xmlns:Link')[0].attr('href')
+  @response = request_hcard(@webfinger)
 end
 
 Then(/^the document should contain User profile$/) do
