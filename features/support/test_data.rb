@@ -15,7 +15,7 @@ class GeneratedData
   end
 
   def roll
-    @test_user_name ="user-#{Time.now.to_i}" 
+    @test_user_name ="user-#{Time.now.to_f}"
     @test_user_id = @test_user_name + "@" + Config.instance.testbed_host
     key_size = 1024
     pkey = OpenSSL::PKey::RSA::generate(key_size)
