@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/SuperTux88/diaspora_federation.git
-  revision: c187ee758edd5749c3e2236b4cf7041139cc3dfa
+  revision: 03ad788c85506191865a7b44c65eeebf7541c3ab
   branch: salmon
   specs:
     diaspora_federation (0.0.8)
