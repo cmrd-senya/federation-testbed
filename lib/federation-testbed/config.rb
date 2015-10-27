@@ -1,7 +1,10 @@
 require "singleton"
 require 'yaml'
 
-class Config
+module FederationTestbed
+end
+
+class FederationTestbed::Config
   include Singleton
 
   attr_reader :testbed_host

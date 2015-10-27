@@ -1,8 +1,11 @@
 require "singleton"
 require "uuid"
-require "./features/support/config"
+require "federation-testbed/config"
 
-class User
+module FederationTestbed
+end
+
+class FederationTestbed::User
   attr_accessor :username
   attr_accessor :last_name
   attr_accessor :id
@@ -13,7 +16,7 @@ class User
   def initialize
     @username ="user-#{Time.now.to_f}"
     @last_name = "at the testbed"
-    @id = @username + "@" + Config.instance.testbed_host
+    @id = @username + "@" + FederationTestbed.config.testbed_host
     key_size = 1024
     pkey = OpenSSL::PKey::RSA::generate(key_size)
     @private_key = pkey.to_s
@@ -22,7 +25,7 @@ class User
   end
 end
 
-class GeneratedData
+class FederationTestbed::GeneratedData
   include Singleton
   def test_user_name
     @user_list.last.username
@@ -50,7 +53,7 @@ class GeneratedData
   end
 
   def roll
-     @user_list.push(User.new)
+     @user_list.push(FederationTestbed::User.new)
   end
 
   def find_by_id_or_create(id)
