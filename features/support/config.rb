@@ -15,8 +15,12 @@ class Config
     @testbed_method + "://" + @testbed_host
   end
 
-  def initialize
+  def read_config_file
     config = YAML::load(File.open('features/support/config.yml'))
+    configure(config)
+  end
+
+  def configure(config)
     @diaspora_method = config["test_target"]["method"]
     @diaspora_host = config["test_target"]["host"]
     @diaspora_user = config["test_target"]["user"] + "@" + @diaspora_host
