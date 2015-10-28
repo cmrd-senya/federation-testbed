@@ -76,6 +76,21 @@ class FederationTestbed::App < Sinatra::Base
     html_string = hcard.to_html
   end
 
+  post "/receive/users/:guid" do |guid|
+    user = test_data.find_by_guid_or_create(guid)
+    slap_xml = URI.decode_www_form_component(params[:xml])
+    slap = DiasporaFederation::Salmon::EncryptedSlap.from_xml(slap_xml, OpenSSL::PKey::RSA.new(user.private_key))
+    author = test_data.find_by_id(slap.author_id)
+    if author.nil?
+      h_card = request_and_parse_hcard(request_and_parse_webfinger(slap.author_id, slap.author_id.match(/[^@]+@([^@]+)/)[0]))
+      pubkey = h_card.public_key
+    else
+      pubkey = author.public_key
+    end
+    entity = slap.entity(OpenSSL::PKey::RSA.new(pubkey))
+    ""
+  end
+
   post '/' do
     erb :index
   end
