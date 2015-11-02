@@ -21,6 +21,13 @@ end
 class FederationTestbed::App < Sinatra::Base
   set :bind, "0.0.0.0"
 
+  attr_accessor :pulled_entities
+
+  def initialize
+    @pulled_entities = []
+    super
+  end
+
   def config
     FederationTestbed::Config.instance
   end
@@ -88,6 +95,7 @@ class FederationTestbed::App < Sinatra::Base
       pubkey = author.public_key
     end
     entity = slap.entity(OpenSSL::PKey::RSA.new(pubkey))
+    pulled_entities.push(entity)
     ""
   end
 
